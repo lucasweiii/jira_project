@@ -1,5 +1,6 @@
 import React, { FormEvent } from "react";
 const LoginRegisterScreen = () => {
+  //从环境变量中获取baseUrl
   const apiURL = process.env.REACT_APP_API_URL;
 
   //login函数
