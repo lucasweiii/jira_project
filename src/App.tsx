@@ -1,11 +1,11 @@
 import React from "react";
 import "./App.css";
-import ProjectListScreen from "screens/project-list/Index";
+import LoginRegisterScreen from "screens/login-register/Index";
 
 function App() {
   return (
     <div className="App">
-      <ProjectListScreen />
+      <LoginRegisterScreen />
     </div>
   );
 }
