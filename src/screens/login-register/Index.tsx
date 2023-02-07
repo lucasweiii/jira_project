@@ -28,6 +28,7 @@ const LoginRegisterScreen = () => {
       .value;
     login({ username, password });
   };
+
   return (
     <form onSubmit={handleSubmit}>
       <div>
