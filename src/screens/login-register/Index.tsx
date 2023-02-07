@@ -1,24 +1,12 @@
+import { useAuth } from "context/Auth-context";
 import React, { FormEvent } from "react";
+import { login } from "utils/auth-provider";
 const LoginRegisterScreen = () => {
   //从环境变量中获取baseUrl
   const apiURL = process.env.REACT_APP_API_URL;
+  const { login, user, register, logout } = useAuth();
 
-  //login函数
-  const login = (params: { username: string; password: string | number }) => {
-    fetch(`${apiURL}/login`, {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify(params),
-    }).then(async (res: Response) => {
-      if (res.ok) {
-        console.log("successed!");
-      }
-    });
-  };
-
-  // 点击获取表单值
+  // 点击获取表单值   //HTMLFormElement extends Element
   const handleSubmit = (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault(); //阻止表单默认行为
 
@@ -31,6 +19,7 @@ const LoginRegisterScreen = () => {
 
   return (
     <form onSubmit={handleSubmit}>
+      用户名:{user?.name}
       <div>
         <label htmlFor="username">Username</label>
         <input type="text" id="username" />

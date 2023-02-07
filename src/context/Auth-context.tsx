@@ -1,0 +1,50 @@
+import React, { useState, createContext, useContext, ReactNode } from "react";
+import * as auth from "utils/auth-provider";
+
+// import { login } from "utils/auth-provider";
+
+interface AuthForm {
+  username: string;
+  password: string;
+}
+
+//创建一个context
+const AuthContext = createContext<
+  | {
+      user: auth.User | null;
+      register: (form: AuthForm) => Promise<void>;
+      login: (form: AuthForm) => Promise<void>;
+      logout: () => Promise<void>;
+    }
+  | undefined
+>(undefined);
+// AuthContext.displayname = "AuthContext";
+
+export const AuthProvider = ({ children }: { children: ReactNode }) => {
+  const [user, setUser] = useState<auth.User | null>(null);
+
+  //point free
+  const login = (form: AuthForm) =>
+    auth.login(form).then((user) => setUser(user));
+
+  const register = (form: AuthForm) =>
+    auth.register(form).then((user) => setUser(user));
+
+  const logout = () => auth.logout().then(() => setUser(null));
+
+  return (
+    <AuthContext.Provider
+      children={children}
+      value={{ user, login, register, logout }}
+    />
+  );
+};
+
+//自定义hook
+export const useAuth = () => {
+  const context = useContext(AuthContext);
+  if (!context) {
+    throw new Error("useAuth must be used in AuthProvider!!!!!");
+  }
+  return context;
+};

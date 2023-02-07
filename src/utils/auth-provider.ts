@@ -8,6 +8,7 @@ export interface User {
   organization: string;
   token: string;
 }
+
 //获取环境变量里存的url
 const apiUrl = process.env.REACT_APP_API_URL;
 
@@ -23,23 +24,41 @@ export const handleUserResponse = ({ user }: { user: User }) => {
 };
 
 //login 函数
+// export const login = (data: { username: string; password: string }) => {
+//   fetch(`${apiUrl}/login`, {
+//     method: "POST",
+//     headers: {
+//       "Content-Type": "application/json",
+//     },
+//     body: JSON.stringify(data),
+//   }).then(async (res: Response) => {
+//     if (res.ok) {
+//       return handleUserResponse(await res.json());
+//     }else{
+//       return Promise.reject(data)
+//     }
+//   });
+// };
+
 export const login = (data: { username: string; password: string }) => {
-  fetch(`${apiUrl}/login`, {
+  return fetch(`${apiUrl}/login`, {
     method: "POST",
     headers: {
-      "Content-Type": "application/json",
+      "Content-Type": "application/jason",
     },
     body: JSON.stringify(data),
   }).then(async (res: Response) => {
     if (res.ok) {
       return handleUserResponse(await res.json());
+    } else {
+      return Promise.reject(data);
     }
   });
 };
 
 //register 函数
 export const register = (data: { username: string; password: string }) => {
-  fetch(`${apiUrl}/register`, {
+  return fetch(`${apiUrl}/register`, {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
@@ -48,9 +67,12 @@ export const register = (data: { username: string; password: string }) => {
   }).then(async (res: Response) => {
     if (res.ok) {
       return handleUserResponse(await res.json());
+    } else {
+      return Promise.reject(data);
     }
   });
 };
 
 //登出 函数
-export const logout = window.localStorage.clear();
+export const logout = async () =>
+  window.localStorage.removeItem(localStorageKey);
