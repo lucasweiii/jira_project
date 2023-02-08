@@ -18,7 +18,8 @@ const AuthContext = createContext<
     }
   | undefined
 >(undefined);
-// AuthContext.displayname = "AuthContext";
+// 使用在devTool上的,跟项目本身无关
+AuthContext.displayName = "AuthContext";
 
 export const AuthProvider = ({ children }: { children: ReactNode }) => {
   const [user, setUser] = useState<auth.User | null>(null);
