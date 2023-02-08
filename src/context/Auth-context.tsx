@@ -1,5 +1,6 @@
 import React, { useState, createContext, useContext, ReactNode } from "react";
 import * as auth from "utils/auth-provider";
+import { http } from "utils/http";
 
 // import { login } from "utils/auth-provider";
 
@@ -7,6 +8,17 @@ interface AuthForm {
   username: string;
   password: string;
 }
+
+// 初始化user
+const bootstrapUser = async () => {
+  let user = null;
+  const token = auth.getToken();
+  if (token) {
+    const data = await http("me", { token });
+    user = data.user;
+  }
+  return user;
+};
 
 //创建一个context
 const AuthContext = createContext<
@@ -32,6 +44,10 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
     auth.register(form).then((user) => setUser(user));
 
   const logout = () => auth.logout().then(() => setUser(null));
+
+  // useMount(()=>{
+  //   bootstrapUser().then(setUser)
+  // })
 
   return (
     <AuthContext.Provider
