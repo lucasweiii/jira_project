@@ -51,8 +51,9 @@ export const http = async (
 //该自定义hook的作用是,自动从context中拿到保存德user信息,并且把token自动加到headers当中
 export const useHttp = () => {
   const { user } = useAuth();
-  //@ts-ignore
+
   return (...[endpoint, config]: [string, Config]) =>
+    //@ts-ignore
     http(endpoint, { ...config, token: user?.token });
   // 一下为使用 ts 操作符的优化版
   // return ([endpoint, config]: Parameters<typof http>) => http(endpoint, { ...config, token: user?.token })
